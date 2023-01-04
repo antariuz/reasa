@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.*;
+import java.util.Date;
 
 @Entity
 @Table
@@ -16,13 +16,10 @@ import java.util.*;
 public class Chat extends MappedEntity {
 
     //  fixme: dummy class
-    private Set<User> participants = new HashSet<>();
-    //  List<Document>
-    private List<String> documents = new ArrayList<>();
-    //  List<Image>
-    private List<String> images = new ArrayList<>();
-    //  List<Voice>
-    private List<String> voices = new ArrayList<>();
+//    private Set<User> participants = new HashSet<>();
+//    private List<Document> documents = new ArrayList<>();
+//    private List<Image> images = new ArrayList<>();
+//    private List<Voice> voices = new ArrayList<>();
     @CreationTimestamp
     private Date createdAt;
 

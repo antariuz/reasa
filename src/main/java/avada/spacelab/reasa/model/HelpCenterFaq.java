@@ -4,9 +4,9 @@ import avada.spacelab.reasa.model.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.Map;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -14,6 +14,9 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class HelpCenterFaq extends MappedEntity {
 
-    private Map<String, String> faqList;
+    //  fixme: rework
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "help_center_faq_id", referencedColumnName = "id")
+    private List<Faq> faqList = new ArrayList<>();
 
 }
