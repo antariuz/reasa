@@ -26,10 +26,6 @@ public class User extends MappedEntity {
     private UserSecuritySettings userSecuritySettings;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserPayment userPayment;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private HelpCenterFaq helpCenterFaq;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private HelpCenterContactUs helpCenterContactUs;
 
     //  fixme: use when classes be ready
 //    @ManyToMany(fetch = FetchType.LAZY)
@@ -37,7 +33,7 @@ public class User extends MappedEntity {
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    private Set<Review> likedReviews = new HashSet<>();
 //    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    @JoinColumn(name = "user_id")
 //    private List<RealEstate> favoriteRealEstates = new ArrayList<>();
 
     //  fixme: rework when Chat feature be ready

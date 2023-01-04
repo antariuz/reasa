@@ -12,11 +12,12 @@ import java.util.List;
 @Table
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class HelpCenterFaq extends MappedEntity {
+public class HelpCenter extends MappedEntity {
 
-    //  fixme: rework
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "help_center_faq_id", referencedColumnName = "id")
+    @JoinColumn(name = "help_center_id")
     private List<Faq> faqList = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ContactUs contactUs;
 
 }

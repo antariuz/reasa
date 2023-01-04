@@ -10,9 +10,9 @@ import javax.persistence.*;
 @Table
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class HelpCenterContactUs extends MappedEntity {
+public class ContactUs extends MappedEntity {
 
-    //  fixme: rework customerServiceChat
+    //  fixme: rework serviceChat
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Chat serviceChat;
     private String whatsApp;
