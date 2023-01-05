@@ -27,7 +27,7 @@ spring:
 
 logging:
   file:
-    path: /home/avada/reasa/api
+    path: "/home/avada/reasa/api"
 
 app:
   jwt:
@@ -36,3 +36,4 @@ app:
       expired: 86400000 #1 day
     refreshToken:
       expired: 604800000 #7 days
+
