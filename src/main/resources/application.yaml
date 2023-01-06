@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/reasa
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5432/avada_sl_j1
+    username: avada_sl_j1
+    password: PSagTbAFNW
   jpa:
     show-sql: true
     properties:
