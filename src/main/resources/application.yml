@@ -33,3 +33,16 @@ app:
     refreshToken:
       expired: 604800000 #7 days
 
+# logging
+logging:
+  file:
+    name: logs/avada_sl_j1-reasa-app.log
+  level:
+    root: info
+    org:
+      hibernate: info
+      springframework: info
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+
