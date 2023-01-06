@@ -1,6 +1,5 @@
 package avada.spacelab.reasa.service.user;
 
-import avada.spacelab.reasa.model.User;
 import avada.spacelab.reasa.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,4 +23,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User with email not found: " + email));
     }
+
 }
