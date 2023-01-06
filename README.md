@@ -7,4 +7,4 @@ This project has been developed for learning and practicing purposes. All rights
 * Swagger
 * Postman
 * Backend: Java 11 / Spring Boot / Tomcat 9 / Redis / Kafka
-* Data base: PostgreSQL
+* Data base: PostgreSQL & MongoDB

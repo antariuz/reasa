@@ -21,3 +21,15 @@ spring:
     database-platform: postgresql
     hibernate:
       ddl-auto: update
+  mvc:
+    path match:
+      matching-strategy: ANT_PATH_MATCHER # for swagger
+
+app:
+  jwt:
+    accessToken:
+      secret: 1veryBigSecretKeyForReasa2veryBigSecretKeyForReasa3veryBigSecretKeyForReasa
+      expired: 86400000 #1 day
+    refreshToken:
+      expired: 604800000 #7 days
+
