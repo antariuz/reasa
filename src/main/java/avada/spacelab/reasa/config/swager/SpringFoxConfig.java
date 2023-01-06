@@ -48,7 +48,7 @@ public class SpringFoxConfig {
     }
 
     private ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo("REST API",
+        ApiInfo apiInfo = new ApiInfo("Reasa REST API",
                 null,
                 "API TOS",
                 null,
