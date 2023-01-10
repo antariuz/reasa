@@ -6,6 +6,7 @@ import avada.spacelab.reasa.dto.auth.GoogleUser;
 import avada.spacelab.reasa.dto.auth.request.IdTokenRequest;
 import avada.spacelab.reasa.dto.auth.response.AccessRefreshTokenResponse;
 import avada.spacelab.reasa.dto.auth.request.LoginRequest;
+import avada.spacelab.reasa.dto.auth.response.MessageResponse;
 import avada.spacelab.reasa.model.User;
 import avada.spacelab.reasa.model.UserProfile;
 import avada.spacelab.reasa.repo.UserRepo;
@@ -70,6 +71,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setEmail(loginRequest.getEmail());
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(loginRequest.getPassword()));
+        user.setProvider(User.Provider.LOCAL);
         userRepo.save(user);
 
         AccessRefreshTokenResponse responseDto = new AccessRefreshTokenResponse();
@@ -94,27 +96,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void registration(String email, String name, User.Provider provider) {
-        log.info("register new {} user", provider);
-        User user = new User();
-        user.setEmail(email);
-        UserProfile userProfile = new UserProfile();
-        userProfile.setNickname(name);
-        user.setUserProfile(userProfile);
-        user.setProvider(provider);
-
-        userRepo.save(user);
-        log.info("success register new user");
-    }
-
-    @Override
-    public void update(String email, String name, User.Provider provider) {
-        log.info("update {} user", provider);
-//        userRepo.update(email, name, provider);
-        log.info("success update user");
-    }
-
-    @Override
     public ResponseEntity<?> getTokensByProvider(IdTokenRequest idTokenRequest, User.Provider provider) {
         OkHttpClient client = new OkHttpClient();
         ResponseEntity<?> responseEntity = null;
@@ -130,10 +111,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         GoogleUser googleUser = mapper.readValue(response.body().string(), new TypeReference<>(){});
                         responseEntity = new ResponseEntity<>(getTokensByGoogleUser(googleUser), HttpStatus.OK);
                     } else {
-                        responseEntity = new ResponseEntity<>(response.body().string(), HttpStatus.BAD_REQUEST);
+                        responseEntity = new ResponseEntity<>(response.body().string(), HttpStatus.NOT_FOUND);
                     }
                 } catch (IOException e) {
-                    responseEntity = new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+                    responseEntity = new ResponseEntity<>(new MessageResponse("Server error not valid request to google api"), HttpStatus.SERVICE_UNAVAILABLE);
                 }
                 break;
             }
@@ -147,10 +128,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         FacebookUser facebookUser = mapper.readValue(response.body().string(), new TypeReference<>(){});
                         responseEntity = new ResponseEntity<>(getTokensByFacebookUser(facebookUser), HttpStatus.OK);
                     } else {
-                        responseEntity = new ResponseEntity<>(response.body().string(), HttpStatus.BAD_REQUEST);
+                        responseEntity = new ResponseEntity<>(response.body().string(), HttpStatus.NOT_FOUND);
                     }
                 } catch (IOException e) {
-                    responseEntity = new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+                    responseEntity = new ResponseEntity<>(new MessageResponse("Server error not valid request to google api"), HttpStatus.SERVICE_UNAVAILABLE);
                 }
                 break;
             }
@@ -235,7 +216,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("login validation email: {}, password: {}", loginRequest.getEmail(), loginRequest.getPassword());
         UserDetails user = loadUserByUsername(loginRequest.getEmail());
         if (user == null) {
-            log.info("user is null");
+            log.info("In database no user with email {}", loginRequest.getEmail());
             bindingResult.addError(new FieldError("loginRequestDto", "user", "Incorrect user login data"));
         } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

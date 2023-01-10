@@ -17,10 +17,6 @@ public interface UserService {
 
     AccessRefreshTokenResponse localRegistration(LoginRequest registrationRequest);
 
-    void registration(String email, String name, User.Provider provider);
-
-    void update(String email, String name, User.Provider provider);
-
     ResponseEntity<?> getTokensByProvider(IdTokenRequest idTokenRequest, User.Provider provider);
 
     void loginValidation(BindingResult bindingResult, LoginRequest loginRequest);

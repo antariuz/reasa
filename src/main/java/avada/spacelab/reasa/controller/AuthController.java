@@ -8,18 +8,15 @@ import avada.spacelab.reasa.dto.auth.response.RefreshTokenResponse;
 import avada.spacelab.reasa.model.User;
 import avada.spacelab.reasa.service.refreshToken.RefreshTokenService;
 import avada.spacelab.reasa.service.user.UserService;
-
-
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -32,11 +29,17 @@ import java.util.Map;
 @ApiResponses(value = {
         @ApiResponse(code = 500, message = "Server Error - Internal Server Error")
 })
-@Slf4j
 public class AuthController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
 
+    @ApiOperation(value = "Login google user", notes = "Login user by google id_token (get access, refreshToken)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok - Successfully google login"),
+            @ApiResponse(code = 400, message = "Bad Request - The fields are filled incorrectly"),
+            @ApiResponse(code = 404, message = "Not Found - Google user was not found for this id_token"),
+            @ApiResponse(code = 503, message = "Service Unavailable - Server error not valid request to google api")
+    })
     @PostMapping("/login/google")
     public ResponseEntity<?> loginGoogle(
             @Valid @RequestBody IdTokenRequest idTokenRequest,
@@ -55,6 +58,13 @@ public class AuthController {
         return userService.getTokensByProvider(idTokenRequest, User.Provider.GOOGLE);
     }
 
+    @ApiOperation(value = "Login facebook user", notes = "Login user by facebook access_token (get access, refreshToken)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok - Successfully facebook login"),
+            @ApiResponse(code = 400, message = "Bad Request - The fields are filled incorrectly"),
+            @ApiResponse(code = 404, message = "Not Found - Facebook user was not found for this access_token"),
+            @ApiResponse(code = 503, message = "Service Unavailable - Server error not valid request to facebook api")
+    })
     @PostMapping("/login/facebook")
     public ResponseEntity<?> loginFacebook(
             @Valid @RequestBody IdTokenRequest idTokenRequest,
@@ -72,7 +82,11 @@ public class AuthController {
         // action
         return userService.getTokensByProvider(idTokenRequest, User.Provider.FACEBOOK);
     }
-
+    @ApiOperation(value = "Local registration", notes = "Registration by email, password (get access, refreshToken)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok - Successfully local registration"),
+            @ApiResponse(code = 400, message = "Bad Request - The fields are filled incorrectly"),
+    })
     @PostMapping("/registration")
     public ResponseEntity<?> registrationUser(
             @Valid @RequestBody LoginRequest loginRequest,
@@ -95,6 +109,11 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Local login", notes = "Login by email, password (get access, refreshToken)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok - Successfully local login"),
+            @ApiResponse(code = 400, message = "Bad Request - The fields are filled incorrectly"),
+    })
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @Valid @RequestBody LoginRequest loginRequest,
@@ -117,8 +136,13 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(
+    @ApiOperation(value = "Access Token", notes = "Get access token by refresh token")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok - Successfully get access token"),
+            @ApiResponse(code = 400, message = "Bad Request - The fields are filled incorrectly"),
+    })
+    @GetMapping("/accessToken")
+    public ResponseEntity<?> accessToken(
             @Valid @RequestBody RefreshTokenRequest refreshToken,
             BindingResult bindingResult
     ) {
