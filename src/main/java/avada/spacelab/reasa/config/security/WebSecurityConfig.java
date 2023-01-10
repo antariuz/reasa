@@ -2,6 +2,7 @@ package avada.spacelab.reasa.config.security;
 
 import avada.spacelab.reasa.config.security.jwt.AuthEntryPointJwt;
 import avada.spacelab.reasa.config.security.jwt.AuthTokenFilter;
+import avada.spacelab.reasa.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserServiceImpl userService;
     @Autowired
     private AuthEntryPointJwt authEntryPointJwt;
     @Bean
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -52,18 +52,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-//                .antMatchers("/api/auth/**").permitAll()
-//                .antMatchers("/api/**").hasAuthority("API")
-//                .antMatchers(
-//                        "/v2/api-docs",
-//                        "/swagger-ui.html",
-//                        "/swagger-ui/**",
-//                        "/configuration/ui",
-//                        "/swagger-resources/**",
-//                        "/configuration/security",
-//                        "/webjars/**").permitAll()
+//                .antMatchers("/oauth2/**").permitAll() // http://localhost:8080/oauth2/authorization/google
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/webjars/**").permitAll()
                 .anyRequest().authenticated();
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
