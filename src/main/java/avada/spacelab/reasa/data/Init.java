@@ -209,11 +209,11 @@ public class Init implements CommandLineRunner {
             );
             ContactUs contactUs = new ContactUs(
                     null,
-                    "@whatsApp",
+                    "https://wa.me/<number>",
                     "https://youtube.com",
                     "https://facebook.com",
-                    "@twitter",
-                    "@instagram"
+                    "https://twitter.com/elonmusk",
+                    "https://instagram.com/teslamotors"
             );
             HelpCenter helpCenter = new HelpCenter(faqList, contactUs);
             helpCenterRepo.save(helpCenter);

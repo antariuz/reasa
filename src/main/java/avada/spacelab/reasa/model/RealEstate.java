@@ -24,7 +24,7 @@ public class RealEstate extends MappedEntity {
     @JoinColumn(name = "real_estate_id")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Gallery> galleries = new ArrayList<>();
-    @JoinColumn(name = "real_estate_id")
+    @JoinColumn(name = "realEstate_id")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Review> reviews;
     @ManyToMany(mappedBy = "realEstates")
