@@ -1,16 +1,19 @@
 package avada.spacelab.reasa.model;
 
 import avada.spacelab.reasa.model.common.MappedEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "real_estates")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RealEstate extends MappedEntity {
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
@@ -20,15 +23,16 @@ public class RealEstate extends MappedEntity {
     private Owner owner;
     @JoinColumn(name = "real_estate_id")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    private List<Gallery> galleries;
-    @JoinColumn(name = "realEstate_id")
+    private List<Gallery> galleries = new ArrayList<>();
+    @JoinColumn(name = "real_estate_id")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Review> reviews;
     @ManyToMany(mappedBy = "realEstates")
     private List<Facility> facilities;
 
     private String name;
-    private String location;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Location location;
     private int price;
     private float averageRating;
     private String image;
@@ -36,8 +40,8 @@ public class RealEstate extends MappedEntity {
     private Type type;
 
     private String overview;
-    private byte beds;
-    private byte bathrooms;
+    private int beds;
+    private int bathrooms;
     private int sqft;
 
     @Getter

@@ -1,8 +1,10 @@
 package avada.spacelab.reasa.model;
 
 import avada.spacelab.reasa.model.common.MappedEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.List;
 @Table
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class HelpCenter extends MappedEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
