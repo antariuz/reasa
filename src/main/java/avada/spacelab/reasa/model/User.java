@@ -18,6 +18,9 @@ import java.util.*;
 public class User extends MappedEntity implements UserDetails {
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserProfile userProfile;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -40,10 +43,6 @@ public class User extends MappedEntity implements UserDetails {
     //  fixme: rework when Chat feature be ready
 //    @ManyToMany(fetch = FetchType.LAZY)
 //    private List<Chat> chats = new ArrayList<>();
-
-    @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    private Role role;
 
 
     @Override
@@ -74,5 +73,9 @@ public class User extends MappedEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public enum Provider {
+        LOCAL, GOOGLE, FACEBOOK, APPLE
     }
 }

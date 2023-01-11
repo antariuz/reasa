@@ -1,8 +1,10 @@
 package avada.spacelab.reasa.model;
 
 import avada.spacelab.reasa.model.common.MappedEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +12,8 @@ import javax.persistence.*;
 @Table
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContactUs extends MappedEntity {
 
     //  fixme: rework serviceChat

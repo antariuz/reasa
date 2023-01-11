@@ -18,18 +18,9 @@ public class JwtUtils {
     @Value("${app.jwt.accessToken.expired}")
     private int jwtExpiredMs;
 
-    public String generateJwtToken(User user) {
+    public String generateJwtToken(String username) {
         return Jwts.builder()
-                .setSubject((user.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpiredMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
-    public String generateJwtToken(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return Jwts.builder()
-                .setSubject((userDetails.getUsername()))
+                .setSubject((username))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpiredMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

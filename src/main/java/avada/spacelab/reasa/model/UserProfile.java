@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -30,9 +31,12 @@ public class UserProfile extends MappedEntity {
     private Language language;
 
     @Getter
+    @RequiredArgsConstructor
     public enum Gender {
-        MALE,
-        FEMALE
+        MALE("Male"),
+        FEMALE("Female");
+
+        private final String value;
     }
 
 }

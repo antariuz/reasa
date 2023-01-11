@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -16,11 +15,9 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Faq extends MappedEntity {
+public class Location extends MappedEntity {
 
-    @Column
-    private String question;
-    @Column(length = 4096)
-    private String answer;
+    private double latitude;
+    private double longitude;
 
 }
