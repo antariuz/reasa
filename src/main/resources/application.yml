@@ -36,7 +36,7 @@ app:
 # logging
 logging:
   file:
-    name: /logging/reasa/avada_sl_j1-reasa-app.log
+    name: logging/reasa/avada_sl_j1-reasa-app.log
   level:
     root: info
     org:
