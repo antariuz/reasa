@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
 //                .antMatchers("/oauth2/**").permitAll() // http://localhost:8080/oauth2/authorization/google
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/auth/**", "/").permitAll()
                 .antMatchers(
                         "/v2/api-docs",
                         "/swagger-ui.html",
